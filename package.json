@@ -13,6 +13,7 @@
   "devDependencies": {
     "@types/node": "^15.12.1",
     "esbuild": "^0.12.6",
+    "glob-parent": "^6.0.2",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.3.0",
     "gulp-esbuild": "^0.8.1",
@@ -21,6 +22,8 @@
     "typescript": "^4.3.2"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
+    "pixi-viewport": "^4.34.4",
     "pixi.js": "^6.0.4"
   }
 }

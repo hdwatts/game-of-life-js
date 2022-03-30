@@ -3,12 +3,8 @@ import * as sketch from "./app/sketch"
 
 async function setup() {
   await new Promise((resolve) => {
-    PIXI.Loader.shared
-      // .add("assets/sprites/animation.json")
-      .add("assets/sprites/hello.png")
-      .load(resolve)
+    PIXI.Loader.shared.add("assets/sprites/tile.png").load(resolve)
   })
-
   await sketch.setup()
 }
 

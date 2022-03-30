@@ -1,13 +1,13 @@
 import * as PIXI from "pixi.js"
-import * as sketch from "./app/sketch"
+import * as render from "./app/render"
 
 async function setup() {
   await new Promise((resolve) => {
     PIXI.Loader.shared.add("assets/sprites/tile.png").load(resolve)
   })
-  await sketch.setup()
+  await render.setup()
 }
 
 setup().then(() => {
-  PIXI.Ticker.shared.add(sketch.update, undefined, PIXI.UPDATE_PRIORITY.HIGH)
+  PIXI.Ticker.shared.add(render.update, undefined, PIXI.UPDATE_PRIORITY.HIGH)
 })

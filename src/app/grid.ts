@@ -1,4 +1,6 @@
-type GridState = [number, number][]
+import { Cell } from "./cell"
+
+type GridState = number[][]
 type RedrawList = [number, number, number][]
 type DeadNeighbours = { [key: string]: number }
 export default class Grid {
@@ -19,7 +21,10 @@ export default class Grid {
   //
   // Reset the grid
   init() {
-    this.actualState = []
+    this.actualState = this.parseUrl() || []
+    if (this.actualState.length > 0) {
+      this.refreshGridFromState()
+    }
   }
   nextGeneration() {
     let alive = 0
@@ -89,7 +94,7 @@ export default class Grid {
     }
 
     this.actualState = newState
-
+    this.updateUrl()
     return alive
   }
 
@@ -206,7 +211,7 @@ export default class Grid {
 
     if (y < state[0][0]) {
       // Add to Head
-      let newState: [number, number][] = [[y, x]]
+      let newState: number[][] = [[y, x]]
       for (let k = 0; k < state.length; k++) {
         newState[k + 1] = state[k]
       }
@@ -245,7 +250,7 @@ export default class Grid {
 
         if (y < state[n][0]) {
           // Create Level
-          let newState: [number, number][] = []
+          let newState: number[][] = []
           for (let k = 0; k < state.length; k++) {
             if (k === n) {
               newState[k] = [y, x]
@@ -296,5 +301,54 @@ export default class Grid {
       }
     }
     return false
+  }
+  drawGrid() {
+    for (let i = 0; i < this.redrawList.length; i++) {
+      const x = this.redrawList[i][0]
+      const y = this.redrawList[i][1]
+      if (this.redrawList[i][2] === 1) {
+        Cell.renderCellAt(x, y)
+      } else if (this.redrawList[i][2] === 2) {
+        Cell.stableCellAt(x, y)
+      } else {
+        Cell.destroyCellAt(x, y)
+      }
+    }
+    this.redrawList = []
+    this.updateUrl()
+  }
+  updateGridAt(gridX: number, gridY: number) {
+    if (this.isAlive(gridX, gridY)) {
+      this.removeCell(gridX, gridY, this.actualState)
+      Cell.destroyCellAt(gridX, gridY)
+    } else {
+      this.addCell(gridX, gridY, this.actualState)
+      Cell.renderCellAt(gridX, gridY)
+    }
+    this.drawGrid()
+  }
+  parseUrl() {
+    const match = window.location.href.match(/#(.*)$/)
+    if (match) {
+      try {
+        return JSON.parse(window.atob(match[1]))
+      } catch { }
+    }
+  }
+  refreshGridFromState() {
+    this.redrawList = this.actualState.reduce((list: RedrawList, row) => {
+      const y = row[0]
+      return list.concat(row.reduce((coords: RedrawList, x, index) => {
+        if (index > 0) {
+          coords.push([x, y, 1])
+        }
+        return coords
+      }, []))
+    }, [])
+    this.drawGrid()
+  }
+  updateUrl() {
+    const state = window.btoa(JSON.stringify(this.actualState));
+    window.location.href = window.location.href.replace(/#.*$/, '') + `#${state}`;
   }
 }

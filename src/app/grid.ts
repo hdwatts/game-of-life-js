@@ -1,4 +1,5 @@
 import { Cell } from "./cell"
+import { graphics, viewport, worldToGridCoords } from "./viewport"
 
 type GridState = number[][]
 type RedrawList = [number, number, number][]
@@ -21,10 +22,8 @@ export default class Grid {
   //
   // Reset the grid
   init() {
-    this.actualState = this.parseUrl() || []
-    if (this.actualState.length > 0) {
-      this.refreshGridFromState()
-    }
+    this.actualState = []
+    this.parseUrl()
   }
   nextGeneration() {
     let alive = 0
@@ -94,7 +93,6 @@ export default class Grid {
     }
 
     this.actualState = newState
-    this.updateUrl()
     return alive
   }
 
@@ -303,9 +301,11 @@ export default class Grid {
     return false
   }
   drawGrid() {
+    graphics.clear()
     for (let i = 0; i < this.redrawList.length; i++) {
       const x = this.redrawList[i][0]
       const y = this.redrawList[i][1]
+
       if (this.redrawList[i][2] === 1) {
         Cell.renderCellAt(x, y)
       } else if (this.redrawList[i][2] === 2) {
@@ -315,7 +315,6 @@ export default class Grid {
       }
     }
     this.redrawList = []
-    this.updateUrl()
   }
   updateGridAt(gridX: number, gridY: number) {
     if (this.isAlive(gridX, gridY)) {
@@ -325,16 +324,29 @@ export default class Grid {
       this.addCell(gridX, gridY, this.actualState)
       Cell.renderCellAt(gridX, gridY)
     }
-    this.drawGrid()
   }
+  loadHash(hash: string) {
+    try {
+      this.actualState = []
+      this.refreshGridFromState()
+      this.actualState = JSON.parse(window.atob(hash))
+      if (this.actualState.length > 0) {
+        this.refreshGridFromState()
+      }
+    } catch {
+      console.log(hash)
+      console.log(window.atob(hash))
+      alert("Error loading template")
+    }
+  }
+
   parseUrl() {
     const match = window.location.href.match(/#(.*)$/)
     if (match) {
-      try {
-        return JSON.parse(window.atob(match[1]))
-      } catch { }
+      this.loadHash(match[1])
     }
   }
+
   refreshGridFromState() {
     this.redrawList = this.actualState.reduce((list: RedrawList, row) => {
       const y = row[0]
@@ -346,9 +358,5 @@ export default class Grid {
       }, []))
     }, [])
     this.drawGrid()
-  }
-  updateUrl() {
-    const state = window.btoa(JSON.stringify(this.actualState));
-    window.location.href = window.location.href.replace(/#.*$/, '') + `#${state}`;
   }
 }

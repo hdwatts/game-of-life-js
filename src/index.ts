@@ -9,5 +9,7 @@ async function setup() {
 }
 
 setup().then(() => {
-  PIXI.Ticker.shared.add(render.update, undefined, PIXI.UPDATE_PRIORITY.HIGH)
+  PIXI.Ticker.shared.add((time) => {
+    render.update(time)
+  }, undefined, PIXI.UPDATE_PRIORITY.HIGH)
 })

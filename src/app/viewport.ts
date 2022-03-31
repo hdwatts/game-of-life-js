@@ -3,6 +3,7 @@ import * as game from "../core/game"
 import { Viewport } from "pixi-viewport"
 import { Cell } from "./cell"
 import { grid } from './world'
+import { running, ui } from "./render"
 
 export const viewport = new Viewport({
     screenWidth: window.innerWidth,
@@ -11,6 +12,8 @@ export const viewport = new Viewport({
     worldHeight: 5000,
     interaction: game.app.renderer.plugins.interaction, // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
 })
+
+export const graphics = new PIXI.Graphics()
 
 game.app.stage.addChild(viewport)
 
@@ -26,9 +29,12 @@ export async function setup() {
 
     resizeSprite(tilingSprite)
 
-    viewport.on("zoomed", () => resizeSprite(tilingSprite))
+    viewport.on("zoomed", (e: PIXI.InteractionEvent) => {
+        resizeSprite(tilingSprite)
+    })
     viewport.on("drag-end", () => resizeSprite(tilingSprite))
     viewport.addChild(tilingSprite)
+    viewport.addChild(graphics)
 }
 
 const resizeSprite = (tilingSprite: PIXI.TilingSprite) => {
@@ -57,16 +63,18 @@ export const worldToGridCoords = (xWorld: number, yWorld: number) => {
     return [gridX, gridY]
 }
 
-let dragging = false
+export let dragging = false
 let currentDragCell: number[] = []
 viewport.on("mousedown", (e: PIXI.InteractionEvent) => {
     const [x, y] = globalToGridCoords(e.data.global.x, e.data.global.y)
     dragging = true
     currentDragCell = [x, y]
-    grid.updateGridAt(x, y)
+    if (!running) {
+        grid.updateGridAt(x, y)
+    }
 })
 viewport.on("mousemove", (e) => {
-    if (dragging) {
+    if (dragging && !running) {
         const [x, y] = globalToGridCoords(e.data.global.x, e.data.global.y)
         if (x !== currentDragCell[0] && y !== currentDragCell[1]) {
             currentDragCell = [x, y]

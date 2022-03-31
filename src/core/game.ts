@@ -7,3 +7,6 @@ export const app = new PIXI.Application({
 export const mouse: PIXI.Point = app.renderer.plugins.interaction.mouse.global
 
 document.body.appendChild(app.view)
+window.addEventListener('wheel', e => {
+  e.preventDefault();
+}, { passive: false });

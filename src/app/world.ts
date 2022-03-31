@@ -1,3 +1,4 @@
+import { Cell } from "./cell"
 import Grid from "./grid"
 import * as VIEWPORT from './viewport'
 
@@ -6,4 +7,5 @@ export async function setup() {
     VIEWPORT.setup()
     grid.init()
     grid.drawGrid()
+    Cell.setup()
 }

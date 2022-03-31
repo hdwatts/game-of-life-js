@@ -124,6 +124,10 @@ export class UI {
                 onClick: (e: PointerEvent) => {
                     grid.actualState = []
                     grid.refreshGridFromState()
+                    VIEWPORT.viewport.x = 0
+                    VIEWPORT.viewport.y = 0
+                    setRunning(false)
+                    this.update()
                     e.stopPropagation()
                 }
             }, { newline: true }, {
@@ -139,7 +143,6 @@ export class UI {
                 onClick: async (e: PointerEvent) => {
                     try {
                         const str = await navigator.clipboard.readText()
-                        console.log(str)
                         grid.actualState = JSON.parse(window.atob(str))
                         grid.refreshGridFromState()
                     } catch (e) {

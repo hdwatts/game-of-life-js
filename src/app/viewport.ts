@@ -24,7 +24,8 @@ viewport.drag({ mouseButtons: "right" }).pinch().wheel().clampZoom({
 
 export async function setup() {
     const cellTexture = PIXI.Texture.from("assets/sprites/tile.png")
-
+    viewport.x = 0
+    viewport.y = 0
     const tilingSprite = new PIXI.TilingSprite(cellTexture)
 
     resizeSprite(tilingSprite)
@@ -41,8 +42,10 @@ const resizeSprite = (tilingSprite: PIXI.TilingSprite) => {
     setTimeout(() => {
         const { x, y } = viewport.corner
         const { worldScreenWidth: width, worldScreenHeight: height } = viewport
-        tilingSprite.x = Math.round((x - width) / 100) * 100
-        tilingSprite.y = Math.round((y - height) / 100) * 100
+        const baseX = Math.round((x - width) / 100) * 100
+        tilingSprite.x = baseX - baseX % 200
+        const baseY = Math.round((y - height) / 100) * 100
+        tilingSprite.y = baseY - baseY % 200
         tilingSprite.width = width * 3
         tilingSprite.height = height * 3
     }, 0)

@@ -358,5 +358,7 @@ export default class Grid {
       }, []))
     }, [])
     this.drawGrid()
+    viewport.x = 0
+    viewport.y = 0
   }
 }

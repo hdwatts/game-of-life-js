@@ -19,9 +19,9 @@ export const Cell = {
     VIEWPORT.graphics.endFill()
   },
   destroyCellAt: (x: number, y: number) => {
-    let color = 0x7F7F7F
+    let color = 0xC3C3C3
     if ((x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0)) {
-      color = 0xC3C3C3
+      color = 0x7F7F7F
     }
     VIEWPORT.graphics.beginFill(color)
     VIEWPORT.graphics.drawRect(x * Cell.SIZE, y * Cell.SIZE, Cell.SIZE, Cell.SIZE)

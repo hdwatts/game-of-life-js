@@ -350,12 +350,14 @@ export default class Grid {
   refreshGridFromState() {
     this.redrawList = this.actualState.reduce((list: RedrawList, row) => {
       const y = row[0]
-      return list.concat(row.reduce((coords: RedrawList, x, index) => {
-        if (index > 0) {
-          coords.push([x, y, 1])
-        }
-        return coords
-      }, []))
+      return list.concat(
+        row.reduce((coords: RedrawList, x, index) => {
+          if (index > 0) {
+            coords.push([x, y, 1])
+          }
+          return coords
+        }, [])
+      )
     }, [])
     this.drawGrid()
     viewport.x = 0

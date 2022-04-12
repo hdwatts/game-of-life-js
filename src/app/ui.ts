@@ -6,6 +6,7 @@ import Button from './ui/button'
 import TemplateSelector from './ui/template-selector'
 import { running, setRunning, setThreshold, threshold } from './render'
 import { grid } from './world'
+import { Text } from 'pixi.js'
 
 const uiHeight = 150
 
@@ -199,6 +200,10 @@ export class UI {
                 totalY = totalY + button.height + 15
             }
         }
+        const instructions = new Text("Right click to move\nMouse wheel to zoom", { fontSize: 16 })
+        instructions.x = this.background.width - instructions.width - 2
+        instructions.y = this.background.height - instructions.height - 2
+        this.background.addChild(instructions)
     }
 
     moveBackground(x: number, y: number) {

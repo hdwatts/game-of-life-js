@@ -12,18 +12,7 @@ const templates = [
     isUser: false,
   },
   {
-    label: "Still Lifes",
-    hash:
-      "W1syLDE2LDE3LDIxLDIyLDI2LDI3LDMyXSxbMywxMSwxMiwxNSwxOCwyMCwyMywyNiwyOCwzMSwzM10sWz" +
-      "QsMTEsMTIsMTYsMTcsMjEsMjMsMjcsMzJdLFs1LDIyXSxbOSwxMiwxOV0sWzEwLDEyLDE3LDIwLDI1LDI2XSxbMT" +
-      "EsMTIsMTcsMjAsMjVdLFsxMiwxOCwyOF0sWzEzLDI3LDI4XSxbMTcsMTIsMTgsMzEsMzIsMzNdLFsxOCwxMiwxOC" +
-      "wzMSwzM10sWzE5LDEyLDEzLDE3LDE4LDMxLDMyLDMzXSxbMjAsMzEsMzIsMzNdLFsyMSw4LDksMTAsMTMsMTQsMT" +
-      "YsMTcsMjAsMjEsMjIsMzEsMzIsMzNdLFsyMiwxMCwxMiwxNCwxNiwxOCwyMCwzMSwzMiwzM10sWzIzLDEyLDEzLD" +
-      "E3LDE4LDMxLDMzXSxbMjQsMzEsMzIsMzNdLFsyNSwxMiwxMywxNywxOF0sWzI2LDEwLDEyLDE0LDE2LDE4LDIwXS" +
-      "xbMjcsOCw5LDEwLDEzLDE0LDE2LDE3LDIwLDIxLDIyXSxbMjksMTIsMTMsMTcsMThdLFszMCwxMiwxOF0sWzMxLDEyLDE4XV0=",
-  },
-  {
-    label: "Still Lifes",
+    label: "Still Life + Spinners",
     hash:
       "W1syLDE2LDE3LDIxLDIyLDI2LDI3LDMyXSxbMywxMSwxMiwxNSwxOCwyMCwyMywyNiwyOCwzMSwzM10sWz" +
       "QsMTEsMTIsMTYsMTcsMjEsMjMsMjcsMzJdLFs1LDIyXSxbOSwxMiwxOV0sWzEwLDEyLDE3LDIwLDI1LDI2XSxbMT" +
